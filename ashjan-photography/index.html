@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashjan Photography | أشجان للتصوير</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════
+   TOKENS
+═══════════════════════════════════ */
+:root {
+  --gold:      #C8A84B;
+  --gold-hi:   #E2CB7A;
+  --gold-lo:   rgba(200,168,75,0.15);
+  --ink:       #0C0B09;
+  --card:      #161410;
+  --card-2:    #1E1B16;
+  --card-3:    #26221C;
+  --cream:     #F0E8DA;
+  --cream-2:   #D4C8B4;
+  --cream-3:   #9A9080;
+  --cream-4:   #6A6258;
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'Inter', sans-serif;
+  --ar:        'Tajawal', sans-serif;
+  --r-sm:      12px;
+  --r-md:      20px;
+  --r-lg:      32px;
+  --r-xl:      48px;
+  --r-pill:    999px;
+}
+
+/* ═══════════════════════════════════
+   BASE
+═══════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--cream);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none}
+
+.en{display:block}
+.ar{display:none}
+[dir="rtl"] .en{display:none}
+[dir="rtl"] .ar{display:block}
+[dir="rtl"]{font-family:var(--ar)}
+[dir="rtl"] h1,[dir="rtl"] h2,[dir="rtl"] h3{font-family:var(--ar)}
+
+/* ═══════════════════════════════════
+   BG-SLOT UTILITY
+   — Drop a real image via CSS later:
+     .bg-slot { background-image: url(...) }
+═══════════════════════════════════ */
+.bg-slot{
+  background-color:#1A1612;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  position:relative;
+}
+/* dashed label shown until real image drops in */
+.bg-slot::before{
+  content:attr(data-bg-hint);
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--sans);font-size:10px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:rgba(200,168,75,0.2);
+  border:1.5px dashed rgba(200,168,75,0.12);
+  border-radius:inherit;
+  pointer-events:none;
+  padding:12px;
+  text-align:center;
+}
+/* hide hint once real bg is set */
+.bg-slot[style*="background-image"]::before{display:none}
+
+/* ═══════════════════════════════════
+   FLOATING NAV — pill shape
+═══════════════════════════════════ */
+#nav{
+  position:fixed;top:20px;left:50%;
+  transform:translateX(-50%);
+  z-index:1000;
+  width:min(1160px, calc(100% - 40px));
+  height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+  background:rgba(14,12,10,0.82);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(200,168,75,0.12);
+  border-radius:var(--r-pill);
+  transition:border-color 0.4s, box-shadow 0.4s;
+}
+#nav.scrolled{
+  border-color:rgba(200,168,75,0.22);
+  box-shadow:0 8px 48px rgba(0,0,0,0.5);
+}
+
+.nav-brand{display:flex;align-items:center;gap:12px;direction:ltr}
+.nav-wordmark{
+  font-family:var(--serif);font-size:15px;font-weight:300;
+  letter-spacing:2px;color:var(--cream);line-height:1;
+}
+.nav-wordmark small{
+  display:block;font-size:9px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--cream-3);
+  font-family:var(--sans);margin-top:2px;
+}
+
+.nav-links{list-style:none;display:flex;align-items:center;gap:28px}
+.nav-links a{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--cream-3);transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--gold)}
+
+.nav-book{
+  background:var(--gold);color:#0A0908;
+  padding:9px 22px;border-radius:var(--r-pill);
+  font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  font-weight:900;transition:background 0.2s;
+  white-space:nowrap;display:inline-flex;align-items:center;
+  text-shadow:none;-webkit-text-fill-color:#0A0908;
+}
+.nav-book:hover{background:var(--gold-hi);color:#0A0908;-webkit-text-fill-color:#0A0908}
+
+.lang-pill{
+  background:rgba(200,168,75,0.08);
+  border:1px solid rgba(200,168,75,0.25);
+  border-radius:var(--r-pill);
+  padding:6px 16px;font-size:10px;
+  letter-spacing:1px;color:var(--cream-2);
+  transition:all 0.2s;white-space:nowrap;
+}
+.lang-pill:hover{background:var(--gold-lo);color:var(--gold)}
+
+.hamburger{
+  display:none;flex-direction:column;gap:5px;
+  background:none;padding:8px;
+}
+.hamburger span{
+  display:block;width:20px;height:1px;
+  background:var(--cream-3);transition:all 0.3s;
+}
+
+/* ═══════════════════════════════════
+   HERO — full bleed bg slot
+═══════════════════════════════════ */
+#hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding-top:100px;
+  overflow:hidden;
+}
+/* hero bg with zoom animation */
+@keyframes heroZoom{
+  from{transform:scale(1)}
+  to{transform:scale(1.06)}
+}
+.hero-bg{
+  position:absolute;inset:0;
+  z-index:0;
+  background-image:url('hero-bg.jpg');
+  background-size:cover;
+  background-position:center right;
+  animation:heroZoom 14s ease-in-out infinite alternate;
+  transform-origin:center;
+}
+/* overlay — opacity controlled by tweaks */
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(10,9,8,var(--hero-overlay-top,0.72)) 0%,
+    rgba(10,9,8,var(--hero-overlay-mid,0.5)) 40%,
+    rgba(10,9,8,var(--hero-overlay-bot,0.85)) 100%
+  );
+  pointer-events:none;
+}
+
+.hero-inner{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  max-width:780px;padding:0 32px;
+}
+
+/* frosted glass card */
+.hero-card{
+  background:rgba(12,11,9,0.55);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(200,168,75,0.18);
+  border-radius:var(--r-xl);
+  padding:64px 72px;
+  width:100%;
+}
+
+.hero-eyebrow{
+  font-size:9px;letter-spacing:5px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:28px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';width:32px;height:1px;
+  background:var(--gold);opacity:.5;
+}
+
+.hero-title{
+  font-family:var(--serif);font-size:66px;
+  font-weight:300;line-height:1.08;
+  letter-spacing:1px;color:var(--cream);
+  margin-bottom:8px;
+}
+body.light .hero-title{ color:rgba(168,134,30,0.88) }
+[dir="rtl"] .hero-title{font-family:var(--ar);font-size:52px}
+.hero-title em{font-style:italic;color:rgba(250,250,250,0.66)}
+.hero-sub em{font-style:italic;color:rgba(250,250,250,0.66)}
+
+.hero-divider{
+  width:60px;height:1px;background:var(--gold);
+  display:block;margin:28px auto;opacity:.5;
+}
+
+.hero-sub{
+  font-family:var(--ar);font-size:22px;font-weight:300;
+  color:rgb(168,134,30);direction:rtl;margin-bottom:40px;
+}
+[dir="rtl"] .hero-sub{font-size:30px;color:var(--cream)}
+body.light .hero-sub{ color:rgb(168,134,30) }
+
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-gold{
+  background:var(--gold);color:var(--ink);
+  padding:14px 40px;border-radius:var(--r-pill);
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  font-weight:500;transition:background 0.2s;
+}
+.btn-gold:hover{background:var(--gold-hi)}
+.btn-outline{
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(200,168,75,0.3);
+  color:var(--cream-2);
+  padding:14px 36px;border-radius:var(--r-pill);
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  transition:all 0.2s;white-space:nowrap;
+}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);background:rgba(200,168,75,0.06)}
+
+/* ═══════════════════════════════════
+   MARQUEE
+═══════════════════════════════════ */
+.marquee-wrap{
+  padding:0 24px;margin:32px 0;
+}
+.marquee-track{
+  background:var(--card);
+  border:1px solid rgba(200,168,75,0.1);
+  border-radius:var(--r-pill);
+  padding:14px 0;overflow:hidden;
+}
+.marquee-inner{
+  display:flex;gap:40px;
+  animation:marquee 26s linear infinite;
+  white-space:nowrap;
+}
+.marquee-inner span{
+  font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--cream-3);
+}
+.marquee-sep{color:var(--gold) !important;font-size:12px !important;opacity:.4}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══════════════════════════════════
+   SHARED SECTION
+═══════════════════════════════════ */
+.sec{padding:100px 32px}
+.sec-inner{max-width:1160px;margin:0 auto}
+
+.sec-tag{
+  font-size:9px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:10px;display:block;
+}
+.sec-title{
+  font-family:var(--serif);font-size:48px;
+  font-weight:300;color:var(--cream);line-height:1.1;
+}
+[dir="rtl"] .sec-title{font-family:var(--ar);font-size:40px}
+.sec-ar{
+  font-family:var(--ar);font-size:18px;
+  font-weight:300;color:var(--cream-3);
+  direction:rtl;margin-top:4px;display:block;
+}
+[dir="rtl"] .sec-ar{display:none}
+.sec-rule{
+  width:40px;height:2px;border-radius:2px;
+  background:var(--gold);margin-top:18px;display:block;
+}
+
+/* ═══════════════════════════════════
+   SERVICES
+═══════════════════════════════════ */
+#services{
+  background:var(--ink);
+}
+.svc-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;margin-top:56px;
+}
+.svc-card{
+  background:var(--card);
+  border:1px solid rgba(200,168,75,0.08);
+  border-radius:var(--r-lg);
+  padding:44px 36px;
+  transition:all 0.35s;
+  position:relative;overflow:hidden;
+}
+.svc-card::after{
+  content:'';position:absolute;
+  inset:0;border-radius:var(--r-lg);
+  background:radial-gradient(ellipse at 50% 100%,rgba(200,168,75,0.07) 0%,transparent 70%);
+  opacity:0;transition:opacity 0.4s;pointer-events:none;
+}
+.svc-card:hover{
+  border-color:rgba(200,168,75,0.25);
+  transform:translateY(-4px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.35);
+}
+.svc-card:hover::after{opacity:1}
+
+.svc-ico{
+  width:52px;height:52px;
+  background:rgba(200,168,75,0.08);
+  border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:22px;
+  border:1px solid rgba(200,168,75,0.15);
+}
+.svc-num{
+  position:absolute;top:28px;right:28px;
+  font-family:var(--serif);font-size:13px;
+  color:var(--cream-4);letter-spacing:1px;
+}
+[dir="rtl"] .svc-num{right:auto;left:28px}
+.svc-en{
+  font-family:var(--serif);font-size:24px;
+  font-weight:300;color:var(--cream);
+  line-height:1.1;margin-bottom:6px;
+}
+[dir="rtl"] .svc-en{display:none}
+.svc-ar-name{
+  font-family:var(--ar);font-size:16px;
+  color:var(--cream-3);direction:rtl;
+}
+[dir="rtl"] .svc-ar-name{font-size:22px;color:var(--cream);margin-bottom:6px}
+.svc-desc{
+  margin-top:14px;font-size:12px;
+  color:var(--cream-4);line-height:1.8;font-weight:300;
+}
+[dir="rtl"] .svc-desc{font-family:var(--ar);font-size:13px;direction:rtl;text-align:right}
+
+/* ═══════════════════════════════════
+   GALLERY
+═══════════════════════════════════ */
+#gallery{background:var(--card)}
+.gallery-header{
+  display:flex;justify-content:space-between;
+  align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:20px;
+}
+.gallery-grid{
+  columns:3;column-gap:14px;
+}
+.g-item{
+  break-inside:avoid;margin-bottom:14px;
+  position:relative;overflow:hidden;
+  border-radius:var(--r-lg);cursor:pointer;
+}
+.g-ph{
+  width:100%;display:block;
+  border-radius:var(--r-lg);
+  border:1px solid rgba(200,168,75,0.06);
+  transition:transform 0.5s ease;
+  position:relative;
+}
+.g-ph::before{
+  content:attr(data-label);
+  position:absolute;bottom:14px;left:16px;
+  font-size:8px;letter-spacing:2px;
+  text-transform:uppercase;
+  color:rgba(200,168,75,0.25);
+  pointer-events:none;
+}
+.g-item:hover .g-ph{transform:scale(1.03)}
+.g-item::after{
+  content:'';position:absolute;inset:0;
+  border-radius:var(--r-lg);
+  background:linear-gradient(to top,rgba(200,168,75,0.1) 0%,transparent 50%);
+  opacity:0;transition:opacity 0.3s;pointer-events:none;
+}
+.g-item:hover::after{opacity:1}
+
+.gallery-footer{
+  margin-top:56px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* ═══════════════════════════════════
+   ABOUT
+═══════════════════════════════════ */
+#about{background:var(--ink)}
+.about-wrap{
+  display:grid;
+  grid-template-columns:440px 1fr;
+  gap:56px;align-items:start;
+}
+[dir="rtl"] .about-wrap{direction:rtl}
+
+.about-img-card{
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  position:sticky;top:100px;
+  border:1px solid rgba(200,168,75,0.1);
+}
+.about-portrait{
+  width:100%;min-height:580px;
+  border-radius:var(--r-xl);
+}
+.about-mini{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  padding:8px;background:var(--ink);border-radius:0 0 var(--r-xl) var(--r-xl);
+}
+.about-mini-ph{
+  border-radius:var(--r-md);
+  height:110px;
+}
+
+.about-content{padding-top:8px}
+.about-body{
+  margin:28px 0;font-size:15px;
+  color:var(--cream-2);line-height:1.9;font-weight:300;
+}
+[dir="rtl"] .about-body{font-family:var(--ar);font-size:16px;direction:rtl;text-align:right}
+
+.stats-row{
+  display:flex;gap:0;
+  background:var(--card);
+  border:1px solid rgba(200,168,75,0.1);
+  border-radius:var(--r-lg);
+  overflow:hidden;margin:36px 0;
+}
+.stat{
+  flex:1;padding:28px 20px;text-align:center;
+  border-right:1px solid rgba(200,168,75,0.08);
+}
+.stat:last-child{border-right:none}
+[dir="rtl"] .stat{border-right:none;border-left:1px solid rgba(200,168,75,0.08)}
+[dir="rtl"] .stat:last-child{border-left:none}
+.stat-n{
+  display:block;font-family:var(--serif);
+  font-size:44px;font-weight:300;
+  color:var(--cream);line-height:1;
+}
+.stat-l{
+  display:block;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--cream-4);margin-top:6px;
+}
+
+.cert-pill{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--card);
+  border:1px solid rgba(200,168,75,0.2);
+  border-radius:var(--r-pill);
+  padding:12px 24px;margin:8px 0 32px;
+}
+.cert-check{
+  width:28px;height:28px;
+  background:rgba(200,168,75,0.1);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--gold);font-size:13px;flex-shrink:0;
+}
+.cert-txt{font-size:11px;color:var(--cream-3);letter-spacing:.5px;line-height:1.5}
+.cert-txt span{
+  display:block;font-family:var(--ar);
+  font-size:13px;direction:rtl;color:var(--cream-4);
+}
+
+.about-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-wa{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#25D366;color:#fff;
+  padding:13px 28px;border-radius:var(--r-pill);
+  font-size:11px;font-weight:500;
+  letter-spacing:.5px;transition:background .2s;
+}
+.btn-wa:hover{background:#1ebe5a}
+.btn-ig{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(200,168,75,0.08);
+  border:1px solid rgba(200,168,75,0.25);
+  border-radius:var(--r-pill);
+  color:var(--gold);
+  padding:13px 28px;font-size:11px;
+  letter-spacing:.5px;transition:all .2s;
+}
+.btn-ig:hover{background:var(--gold);color:var(--ink)}
+
+/* ═══════════════════════════════════
+   FEATURE BANNER — bg slot
+═══════════════════════════════════ */
+.feature-banner{
+  margin:0 32px;border-radius:var(--r-xl);
+  overflow:hidden;position:relative;
+  min-height:480px;
+  display:flex;align-items:center;justify-content:center;
+  background-image:url('studio-bg.webp');
+  background-size:cover;
+  background-position:center 40%;
+}
+.feature-banner::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(12,11,9,0.55) 0%,rgba(12,11,9,0.35) 50%,rgba(12,11,9,0.72) 100%);
+  border-radius:var(--r-xl);pointer-events:none;
+}
+.feature-inner{
+  position:relative;z-index:2;
+  text-align:center;padding:80px 60px;
+  max-width:700px;
+  display:flex;flex-direction:column;
+  align-items:center;gap:20px;
+}
+.feature-inner h2{
+  font-family:var(--serif);font-size:46px;
+  font-weight:300;color:#F0E8DA;
+  line-height:1.15;margin:0;
+}
+[dir="rtl"] .feature-inner h2{font-family:var(--ar);font-size:40px}
+.feature-inner .btn-gold{
+  display:inline-block !important;
+  padding:14px 48px !important;
+  border-radius:var(--r-pill) !important;
+  font-size:10px !important;letter-spacing:3px !important;
+  text-transform:uppercase !important;font-weight:600 !important;
+  background:var(--gold) !important;color:#0C0B09 !important;
+  transition:background 0.2s !important;margin-top:4px;
+}
+.feature-inner .btn-gold:hover{background:var(--gold-hi) !important}
+.feature-inner p{
+  font-family:var(--ar);font-size:19px;
+  color:rgba(240,232,218,0.55);direction:rtl;
+  margin:0;display:block;
+}
+[dir="rtl"] .feature-inner p{font-size:16px;color:var(--cream-3)}
+
+/* ═══════════════════════════════════
+   BOOKING
+═══════════════════════════════════ */
+#booking{background:var(--card)}
+.booking-wrap{
+  display:grid;grid-template-columns:1fr 380px;gap:64px;
+}
+[dir="rtl"] .booking-wrap{direction:rtl}
+.booking-form-card{
+  background:var(--card-2);
+  border:1px solid rgba(200,168,75,0.1);
+  border-radius:var(--r-xl);
+  padding:48px;
+}
+.bform-title{
+  font-family:var(--serif);font-size:36px;
+  font-weight:300;color:var(--cream);margin-bottom:8px;
+}
+[dir="rtl"] .bform-title{font-family:var(--ar)}
+.bform-sub{
+  font-size:13px;color:var(--cream-4);
+  margin-bottom:36px;font-weight:300;
+}
+[dir="rtl"] .bform-sub{font-family:var(--ar);direction:rtl;text-align:right}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{margin-bottom:16px}
+.fg label{
+  display:block;font-size:9px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--cream-4);margin-bottom:8px;
+}
+.fi{
+  width:100%;padding:14px 18px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(200,168,75,0.12);
+  border-radius:var(--r-md);
+  color:var(--cream);font-family:var(--sans);font-size:14px;
+  outline:none;transition:border-color .2s,background .2s;
+  -webkit-appearance:none;
+}
+.fi::placeholder{color:rgba(200,168,75,0.2)}
+.fi:focus{border-color:rgba(200,168,75,0.45);background:rgba(255,255,255,0.06)}
+.fi option{background:var(--card-2);color:var(--cream)}
+.fi-ta{height:120px;resize:none}
+.btn-send{
+  width:100%;padding:16px;
+  background:var(--gold);color:var(--ink);
+  border-radius:var(--r-pill);
+  font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;font-weight:600;
+  transition:background .2s;margin-top:4px;
+}
+.btn-send:hover{background:var(--gold-hi)}
+
+/* contact side */
+.booking-side-card{
+  background:var(--card-3);
+  border:1px solid rgba(200,168,75,0.1);
+  border-radius:var(--r-xl);
+  padding:40px 36px;
+  height:fit-content;
+  position:sticky;top:100px;
+}
+.side-logo{
+  display:flex;justify-content:center;
+  margin-bottom:28px;
+  direction:ltr;
+}
+.side-intro{
+  font-family:var(--serif);font-size:26px;
+  font-weight:300;color:var(--cream);
+  text-align:center;margin-bottom:32px;line-height:1.3;
+}
+[dir="rtl"] .side-intro{font-family:var(--ar);font-size:22px}
+.c-item{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 0;
+  border-bottom:1px solid rgba(200,168,75,0.07);
+}
+.c-item:last-child{border-bottom:none}
+.c-ico{
+  width:40px;height:40px;flex-shrink:0;
+  background:rgba(200,168,75,0.08);
+  border:1px solid rgba(200,168,75,0.15);
+  border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--gold);font-size:15px;
+}
+.c-info strong{
+  display:block;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:3px;font-weight:400;
+}
+.c-info span{font-size:13px;color:var(--cream-3);line-height:1.6}
+[dir="rtl"] .c-info{text-align:right;font-family:var(--ar)}
+
+/* ═══════════════════════════════════
+   FOOTER
+═══════════════════════════════════ */
+footer{
+  background:var(--ink);
+  padding:64px 32px 40px;
+}
+.footer-inner{max-width:1160px;margin:0 auto}
+/* footer logo alignment fix */
+.footer-top{
+  background:var(--card);
+  border:1px solid rgba(200,168,75,0.1);
+  border-radius:var(--r-xl);
+  padding:48px 56px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+  margin-bottom:32px;
+  direction:ltr;
+}
+.footer-tagline{
+  font-size:12px;color:var(--cream-4);
+  letter-spacing:.5px;line-height:1.8;
+}
+.footer-center{text-align:center}
+.footer-mark{
+  font-family:var(--serif);font-size:13px;
+  font-weight:300;color:var(--cream-3);
+  letter-spacing:4px;text-transform:uppercase;margin-top:10px;
+}
+.footer-socials{
+  display:flex;gap:10px;justify-content:flex-end;
+}
+.soc{
+  width:40px;height:40px;
+  background:rgba(200,168,75,0.06);
+  border:1px solid rgba(200,168,75,0.12);
+  border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--cream-4);transition:all .2s;
+}
+.soc:hover{border-color:var(--gold);color:var(--gold);background:rgba(200,168,75,0.1)}
+.footer-copy{
+  text-align:center;font-size:11px;
+  color:var(--cream-4);letter-spacing:.5px;line-height:1.9;
+}
+.footer-copy span{font-family:var(--ar)}
+
+/* ═══════════════════════════════════
+   LIGHT MODE
+═══════════════════════════════════ */
+body.light{
+  --ink:    #F5F1EB;
+  --card:   #FFFFFF;
+  --card-2: #EDE8E0;
+  --card-3: #E4DDD4;
+  --cream:  #1A1714;
+  --cream-2:#3C3830;
+  --cream-3:#6A6258;
+  --cream-4:#9E968E;
+  --gold:   #A8861E;
+  --gold-hi:#C8A84B;
+  --gold-lo:rgba(168,134,30,0.12);
+}
+body.light #nav{
+  background:rgba(245,241,235,0.9);
+  border-color:rgba(168,134,30,0.18);
+}
+/* light mode hero — keep overlay dark so text stays readable */
+body.light .hero-bg::after{
+  background:linear-gradient(
+    to bottom,
+    rgba(10,9,8,0.78) 0%,
+    rgba(10,9,8,0.6) 40%,
+    rgba(10,9,8,0.88) 100%
+  );
+}
+    rgba(245,241,235,0.2) 40%,
+    rgba(245,241,235,0.65) 100%);
+}
+body.light .hero-card{
+  background:rgba(12,11,9,0.5);
+  border-color:rgba(200,168,75,0.28);
+}
+}
+body.light .bg-slot{background-color:#DDD6CC}
+body.light .bg-slot::before{
+  color:rgba(168,134,30,0.35);
+  border-color:rgba(168,134,30,0.18);
+}
+body.light .marquee-track{background:var(--card)}
+body.light .svc-card{box-shadow:0 2px 20px rgba(0,0,0,0.06)}
+/* feature banner text always white/bright regardless of mode */
+.feature-inner h2{color:#F5EDD8 !important}
+.feature-inner p{color:rgba(245,237,216,0.6) !important}
+body.light .feature-banner::after{
+  background:linear-gradient(to bottom,rgba(10,9,8,0.55) 0%,rgba(10,9,8,0.35) 50%,rgba(10,9,8,0.72) 100%);
+}
+body.light .feature-inner h2,
+body.light .feature-inner p{color:var(--cream)}
+body.light .booking-form-card,
+body.light .booking-side-card{box-shadow:0 4px 32px rgba(0,0,0,0.07)}
+body.light .fi{
+  background:rgba(0,0,0,0.03);
+  border-color:rgba(168,134,30,0.18);
+  color:var(--cream);
+}
+body.light .fi::placeholder{color:rgba(168,134,30,0.3)}
+body.light .footer-top{box-shadow:0 2px 16px rgba(0,0,0,0.05)}
+/* keep logo readable on light bg — dark circle behind SVG */
+body.light .nav-brand svg,
+body.light .side-logo svg,
+body.light .footer-center svg,
+body.light .about-brand-corner svg{
+  background:#1A1714;
+  border-radius:50%;
+}
+
+/* mode toggle */
+.mode-btn{
+  width:34px;height:34px;border-radius:var(--r-pill);
+  border:1px solid rgba(200,168,75,0.25);
+  background:rgba(200,168,75,0.08);
+  color:var(--cream-3);font-size:15px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;flex-shrink:0;
+}
+.mode-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ═══════════════════════════════════
+   TWEAKS
+═══════════════════════════════════ */
+#tweaks-panel{
+  display:none;
+  position:fixed;bottom:24px;right:24px;
+  background:var(--card);
+  border:1px solid rgba(200,168,75,0.2);
+  border-radius:var(--r-lg);
+  box-shadow:0 16px 60px rgba(0,0,0,0.6);
+  padding:24px;width:248px;z-index:9999;
+}
+#tweaks-panel h3{
+  font-family:var(--serif);font-size:17px;
+  font-weight:400;color:var(--gold);margin-bottom:18px;
+}
+#tweaks-panel label{
+  display:block;margin-bottom:14px;
+  font-size:10px;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--cream-4);
+}
+#tweaks-panel select,#tweaks-panel input[type=range]{
+  width:100%;margin-top:6px;padding:7px 10px;
+  border:1px solid rgba(200,168,75,0.15);
+  border-radius:var(--r-sm);
+  background:var(--card-2);color:var(--cream-3);
+  font-family:var(--sans);font-size:11px;outline:none;
+}
+#tweaks-panel input[type=range]{padding:4px 0}
+
+/* mobile nav overlay */
+.mob-menu{
+  display:none;position:fixed;inset:0;top:84px;
+  background:rgba(12,11,9,0.97);
+  z-index:999;flex-direction:column;
+  align-items:center;justify-content:center;gap:36px;
+}
+.mob-menu.open{display:flex}
+.mob-menu a{
+  font-family:var(--serif);font-size:36px;
+  font-weight:300;color:var(--cream);letter-spacing:2px;transition:color .2s;
+}
+.mob-menu a:hover{color:var(--gold)}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════ */
+@media(max-width:1024px){
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .gallery-grid{columns:2}
+  .about-wrap{grid-template-columns:1fr}
+  .about-img-card{position:static}
+  .about-portrait{min-height:360px}
+  .booking-wrap{grid-template-columns:1fr}
+  .booking-side-card{position:static}
+  .footer-top{grid-template-columns:1fr;text-align:center}
+  .footer-socials{justify-content:center}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .hero-card{padding:44px 32px}
+  .hero-title{font-size:48px}
+}
+@media(max-width:600px){
+  .svc-grid{grid-template-columns:1fr}
+  .gallery-grid{columns:1}
+  .form-row{grid-template-columns:1fr}
+  .sec-title{font-size:36px}
+  .hero-title{font-size:38px}
+  .hero-card{padding:36px 24px}
+  .booking-form-card{padding:32px 24px}
+  .feature-inner h2{font-size:36px}
+}
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#0C0B09">
+  <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <!-- dark bg -->
+    <rect width="400" height="300" fill="#0C0B09"/>
+    <!-- gold circle logo -->
+    <circle cx="200" cy="130" r="60" fill="none" stroke="#C8A84B" stroke-width="2"/>
+    <text x="175" y="148" font-family="Georgia,serif" font-size="44" font-weight="700" fill="#EDE5D8">A</text>
+    <text x="200" y="148" font-family="Georgia,serif" font-size="46" font-weight="400" fill="#C8A84B" font-style="italic">R</text>
+    <!-- wordmark -->
+    <text x="200" y="215" font-family="Georgia,serif" font-size="18" font-weight="300" fill="#C8A84B" text-anchor="middle" letter-spacing="6">ASHJAN</text>
+    <text x="200" y="238" font-family="Georgia,serif" font-size="11" fill="#5A5248" text-anchor="middle" letter-spacing="3">PHOTOGRAPHY</text>
+    <!-- gold line -->
+    <rect x="168" y="252" width="64" height="1" fill="#C8A84B" opacity="0.5"/>
+  </svg>
+</template>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <a href="#hero" class="nav-brand">
+    <svg width="42" height="42" viewBox="0 0 46 46" fill="none">
+      <circle cx="23" cy="23" r="21.5" stroke="#C8A84B" stroke-width="1"/>
+      <text x="9" y="30" font-family="Georgia,serif" font-size="20" font-weight="700" fill="#EDE5D8" letter-spacing="-1">A</text>
+      <text x="23" y="30" font-family="Georgia,serif" font-size="21" font-weight="400" fill="#C8A84B" font-style="italic">R</text>
+    </svg>
+    <div class="nav-wordmark">
+      Ashjan
+      <small>Photography</small>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#gallery"><span class="en">Gallery</span><span class="ar">المعرض</span></a></li>
+    <li><a href="#services"><span class="en">Services</span><span class="ar">الخدمات</span></a></li>
+    <li><a href="#about"><span class="en">About</span><span class="ar">عن أشجان</span></a></li>
+    <li><a href="#booking" class="nav-book"><span class="en">Book Now</span><span class="ar">احجزي الآن</span></a></li>
+    <li><button class="lang-pill" id="lang-btn" onclick="toggleLang()">عربي</button></li>
+    <li><button class="mode-btn" id="mode-btn" onclick="toggleMode()" title="Light / Dark">☀</button></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mob-menu" id="mob-menu">
+  <a href="#gallery" onclick="toggleMenu()"><span class="en">Gallery</span><span class="ar">المعرض</span></a>
+  <a href="#services" onclick="toggleMenu()"><span class="en">Services</span><span class="ar">الخدمات</span></a>
+  <a href="#about" onclick="toggleMenu()"><span class="en">About</span><span class="ar">عن أشجان</span></a>
+  <a href="#booking" onclick="toggleMenu()"><span class="en">Book Now</span><span class="ar">احجزي الآن</span></a>
+  <button class="lang-pill" onclick="toggleLang();toggleMenu();" style="font-size:13px;padding:10px 28px;">عر / EN</button>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-bg" id="hero-bg"></div>
+
+  <div class="hero-inner">
+    <div class="hero-card" style="opacity: 1; background-color: rgba(12, 11, 9, 0.25)">
+      <p class="hero-eyebrow">
+        <span class="en">Ashjan Photography · الرياض</span>
+        <span class="ar">أشجان للتصوير · الرياض</span>
+      </p>
+      <h1 class="hero-title">
+        <span class="en">Where <em>Light</em><br>Meets Elegance</span>
+        <span class="ar">حيث يلتقي <em style="font-style:italic;color:rgba(250,250,250,0.66)">الضوء</em><br>بالأناقة</span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-sub">
+        <span class="en">حيث يلتقي الضوء بالأناقة</span>
+        <span class="ar">Where Light Meets Elegance</span>
+      </p>
+      <div class="hero-btns">
+        <a href="#booking" class="btn-gold">
+          <span class="en">Book a Session</span>
+          <span class="ar">احجزي جلستك</span>
+        </a>
+        <a href="#gallery" class="btn-outline">
+          <span class="en">View Work</span>
+          <span class="ar">مشاهدة الأعمال</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MARQUEE ═══ -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-inner">
+      <span>Fashion</span><span class="marquee-sep">◆</span>
+      <span>Portraits</span><span class="marquee-sep">◆</span>
+      <span>Families</span><span class="marquee-sep">◆</span>
+      <span>Children</span><span class="marquee-sep">◆</span>
+      <span>Maternity</span><span class="marquee-sep">◆</span>
+      <span>Products</span><span class="marquee-sep">◆</span>
+      <span>أزياء</span><span class="marquee-sep">◆</span>
+      <span>بورتريه</span><span class="marquee-sep">◆</span>
+      <span>عائلات</span><span class="marquee-sep">◆</span>
+      <span>أطفال</span><span class="marquee-sep">◆</span>
+      <span>حمل</span><span class="marquee-sep">◆</span>
+      <span>منتجات</span><span class="marquee-sep">◆</span>
+      <span>Fashion</span><span class="marquee-sep">◆</span>
+      <span>Portraits</span><span class="marquee-sep">◆</span>
+      <span>Families</span><span class="marquee-sep">◆</span>
+      <span>Children</span><span class="marquee-sep">◆</span>
+      <span>Maternity</span><span class="marquee-sep">◆</span>
+      <span>Products</span><span class="marquee-sep">◆</span>
+      <span>أزياء</span><span class="marquee-sep">◆</span>
+      <span>بورتريه</span><span class="marquee-sep">◆</span>
+      <span>عائلات</span><span class="marquee-sep">◆</span>
+      <span>أطفال</span><span class="marquee-sep">◆</span>
+      <span>حمل</span><span class="marquee-sep">◆</span>
+      <span>منتجات</span><span class="marquee-sep">◆</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services" class="sec">
+  <div class="sec-inner">
+    <span class="sec-tag"><span class="en">What I Offer</span><span class="ar">خدماتي</span></span>
+    <h2 class="sec-title"><span class="en">Curated Sessions</span><span class="ar">جلسات مميزة</span></h2>
+    <span class="sec-ar">ما أقدمه</span>
+    <span class="sec-rule"></span>
+
+    <div class="svc-grid">
+      <div class="svc-card">
+        <span class="svc-num">01</span>
+        <div class="svc-ico">◈</div>
+        <div class="svc-en">Fashion Photography</div>
+        <div class="svc-ar-name">تصوير الأزياء</div>
+        <p class="svc-desc"><span class="en">Editorial-grade fashion shoots — impeccable lighting, styling direction, brand campaigns.</span><span class="ar">جلسات أزياء احترافية بإضاءة متقنة وتوجيه بصري متميز للعلامات التجارية.</span></p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-num">02</span>
+        <div class="svc-ico">◉</div>
+        <div class="svc-en">Portraits</div>
+        <div class="svc-ar-name">البورتريه</div>
+        <p class="svc-desc"><span class="en">Expressive portraits revealing character and presence — studio or on location.</span><span class="ar">صور بورتريه معبّرة تُبرز شخصيتك وحضورك، في الاستوديو أو في الأماكن المختارة.</span></p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-num">03</span>
+        <div class="svc-ico">◇</div>
+        <div class="svc-en">Children</div>
+        <div class="svc-ar-name">الأطفال</div>
+        <p class="svc-desc"><span class="en">Playful, warm sessions capturing the pure magic of childhood moments.</span><span class="ar">جلسات دافئة ومرحة تُخلّد سحر لحظات الطفولة البريئة.</span></p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-num">04</span>
+        <div class="svc-ico">⬡</div>
+        <div class="svc-en">Families</div>
+        <div class="svc-ar-name">العائلات</div>
+        <p class="svc-desc"><span class="en">Timeless family portraits celebrating your bonds — beautifully composed.</span><span class="ar">صور عائلية خالدة تحتفي بروابط المحبة والذكريات الجميلة.</span></p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-num">05</span>
+        <div class="svc-ico">◌</div>
+        <div class="svc-en">Maternity</div>
+        <div class="svc-ar-name">الحمل</div>
+        <p class="svc-desc"><span class="en">Graceful, luminous sessions celebrating the beauty of motherhood.</span><span class="ar">جلسات مضيئة وأنيقة تحتفل بجمال مرحلة الأمومة في حياتكِ.</span></p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-num">06</span>
+        <div class="svc-ico">▣</div>
+        <div class="svc-en">Products</div>
+        <div class="svc-ar-name">المنتجات</div>
+        <p class="svc-desc"><span class="en">Polished product photography — food, fragrance, fashion — elevating your brand.</span><span class="ar">تصوير منتجات احترافي للطعام والعطور والأزياء يرفع هوية علامتك التجارية.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALLERY ═══ -->
+<section id="gallery" class="sec">
+  <div class="sec-inner">
+    <div class="gallery-header">
+      <div>
+        <span class="sec-tag"><span class="en">Portfolio</span><span class="ar">المعرض</span></span>
+        <h2 class="sec-title"><span class="en">Selected Work</span><span class="ar">أعمال مختارة</span></h2>
+        <span class="sec-ar">أعمالي</span>
+        <span class="sec-rule"></span>
+      </div>
+      <a href="https://www.instagram.com/ashjan_photography" target="_blank" class="btn-outline" style="align-self:flex-end">
+        <span class="en">↗ Full Portfolio</span><span class="ar">المعرض الكامل ↗</span>
+      </a>
+    </div>
+
+    <div class="gallery-grid">
+      <!-- ↓ Each .g-ph is a bg-slot — add image via background-image in CSS or inline style -->
+      <div class="g-item"><div class="g-ph bg-slot" style="height:400px" data-bg-hint="fashion · editorial" data-label="fashion · editorial"></div></div>
+      <div class="g-item"><div class="g-ph bg-slot" style="height:280px" data-bg-hint="portrait" data-label="portrait"></div></div>
+      <div class="g-item"><div class="g-ph bg-slot" style="height:350px" data-bg-hint="product · perfume" data-label="product · perfume"></div></div>
+
+      <div class="g-item"><div class="g-ph bg-slot" style="height:300px" data-bg-hint="family" data-label="family"></div></div>
+      <div class="g-item"><div class="g-ph bg-slot" style="height:460px" data-bg-hint="fashion · abaya" data-label="fashion · abaya"></div></div>
+      <div class="g-item"><div class="g-ph bg-slot" style="height:260px" data-bg-hint="children" data-label="children"></div></div>
+
+      <div class="g-item"><div class="g-ph bg-slot" style="height:360px" data-bg-hint="maternity" data-label="maternity"></div></div>
+      <div class="g-item"><div class="g-ph bg-slot" style="height:300px" data-bg-hint="product · food" data-label="product · food"></div></div>
+      <div class="g-item"><div class="g-ph bg-slot" style="height:420px" data-bg-hint="fashion · editorial" data-label="fashion · editorial"></div></div>
+    </div>
+
+    <div class="gallery-footer">
+      <a href="https://www.instagram.com/ashjan_photography" target="_blank" class="btn-gold">
+        <span class="en">View Full Portfolio on Instagram</span>
+        <span class="ar">شاهدي المعرض الكامل على إنستغرام</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURE BANNER — bg slot ═══ -->
+<div class="feature-banner">
+  <div class="feature-inner">
+    <h2><span class="en">Every Frame Tells a Story</span><span class="ar">كل إطار يحكي قصة</span></h2>
+    <p><span class="en">كل إطار يحكي قصة</span><span class="ar">Every Frame Tells a Story</span></p>
+    <a href="#booking" class="btn-gold">
+      <span class="en">Book Your Session</span>
+      <span class="ar">احجزي جلستك</span>
+    </a>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about" class="sec">
+  <div class="sec-inner">
+    <div class="about-wrap">
+      <div class="about-img-card">
+        <!-- ↓ ADD PORTRAIT PHOTO: .about-portrait { background-image: url('ashjan-portrait.jpg') } -->
+        <div class="about-portrait bg-slot" data-bg-hint="Ashjan portrait photo&#10;Add via: .about-portrait { background-image: url(...) }"></div>
+        <div class="about-mini">
+          <div class="about-mini-ph bg-slot" data-bg-hint="Instagram thumb"></div>
+          <div class="about-mini-ph bg-slot" data-bg-hint="Instagram thumb"></div>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <span class="sec-tag"><span class="en">The Photographer</span><span class="ar">عن المصورة</span></span>
+        <h2 class="sec-title"><span class="en">About Ashjan</span><span class="ar">عن أشجان</span></h2>
+        <span class="sec-ar">من أنا</span>
+        <span class="sec-rule"></span>
+
+        <p class="about-body">
+          <span class="en">Based in Riyadh, Ashjan is a certified freelance photographer whose lens transforms fleeting moments into luminous, timeless images. Her work blends the warmth of natural light with the precision of editorial craft — portraits that feel both intimate and iconic.<br><br>Specializing in fashion, portraiture, and lifestyle, she brings a deeply feminine aesthetic and an intuitive eye to every session.</span>
+          <span class="ar">مصورة فريلانسر معتمدة من الرياض، تحوّل عدستها اللحظات العابرة إلى صور ناصعة وخالدة. تمزج أعمالها بين دفء الضوء الطبيعي ودقة الصنعة التحريرية لتخلق بورتريهات تجمع بين الحميمية والأيقونية.<br><br>تتخصص في تصوير الأزياء والبورتريه وأسلوب الحياة، وتجلب جمالية نسائية عميقة إلى كل جلسة.</span>
+        </p>
+
+        <div class="stats-row">
+          <div class="stat"><span class="stat-n">892</span><span class="stat-l"><span class="en">Posts</span><span class="ar">منشور</span></span></div>
+          <div class="stat"><span class="stat-n">2.3K</span><span class="stat-l"><span class="en">Followers</span><span class="ar">متابع</span></span></div>
+          <div class="stat"><span class="stat-n">5+</span><span class="stat-l"><span class="en">Years</span><span class="ar">سنوات</span></span></div>
+        </div>
+
+        <div class="cert-pill">
+          <div class="cert-check">✓</div>
+          <div class="cert-txt">
+            Certified Freelance Photographer
+            <span>مصورة فريلانسر معتمدة</span>
+          </div>
+        </div>
+
+        <div class="about-btns">
+          <a href="https://wa.me/966538662736" target="_blank" class="btn-wa">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.018 22l4.979-1.398A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.658 0-3.197-.5-4.478-1.355l-.322-.199-3.132.879.843-3.073-.21-.33A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+            <span class="en">Chat on WhatsApp</span><span class="ar">تواصلي عبر واتساب</span>
+          </a>
+          <a href="https://www.instagram.com/ashjan_photography" target="_blank" class="btn-ig">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            @ashjan_photography
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BOOKING ═══ -->
+<section id="booking" class="sec">
+  <div class="sec-inner">
+    <div class="booking-wrap">
+      <div class="booking-form-card">
+        <h2 class="bform-title"><span class="en">Book Your Session</span><span class="ar">احجزي جلستك</span></h2>
+        <p class="bform-sub"><span class="en">I'll respond within 24 hours to confirm your booking.</span><span class="ar">سأتواصل معكِ خلال 24 ساعة لتأكيد الحجز.</span></p>
+
+        <form onsubmit="return false;">
+          <div class="form-row">
+            <div class="fg">
+              <label><span class="en">Full Name</span><span class="ar">الاسم الكامل</span></label>
+              <input class="fi" type="text" placeholder="Your name...">
+            </div>
+            <div class="fg">
+              <label><span class="en">Phone Number</span><span class="ar">رقم الجوال</span></label>
+              <input class="fi" type="tel" placeholder="+966 5xx xxx xxx">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="fg">
+              <label><span class="en">Session Type</span><span class="ar">نوع الجلسة</span></label>
+              <select class="fi">
+                <option value="" disabled selected>Select session...</option>
+                <option>Fashion Photography / تصوير الأزياء</option>
+                <option>Portraits / البورتريه</option>
+                <option>Children / الأطفال</option>
+                <option>Families / العائلات</option>
+                <option>Maternity / الحمل</option>
+                <option>Products / المنتجات</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label><span class="en">Preferred Date</span><span class="ar">التاريخ المفضل</span></label>
+              <input class="fi" type="date">
+            </div>
+          </div>
+          <div class="fg">
+            <label><span class="en">Message</span><span class="ar">رسالة</span></label>
+            <textarea class="fi fi-ta" placeholder="Tell me about your vision..."></textarea>
+          </div>
+          <button class="btn-send"><span class="en">Send Request →</span><span class="ar">إرسال الطلب ←</span></button>
+        </form>
+      </div>
+
+      <div class="booking-side-card">
+        <div class="side-logo">
+          <svg width="64" height="64" viewBox="0 0 46 46" fill="none">
+            <circle cx="23" cy="23" r="21.5" stroke="#C8A84B" stroke-width="1"/>
+            <text x="9" y="30" font-family="Georgia,serif" font-size="20" font-weight="700" fill="#EDE5D8" letter-spacing="-1">A</text>
+            <text x="23" y="30" font-family="Georgia,serif" font-size="21" font-weight="400" fill="#C8A84B" font-style="italic">R</text>
+          </svg>
+        </div>
+        <p class="side-intro"><span class="en">Ready to create something beautiful?</span><span class="ar">هل أنتِ مستعدة؟</span></p>
+
+        <div class="c-item">
+          <div class="c-ico">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.018 22l4.979-1.398A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.658 0-3.197-.5-4.478-1.355l-.322-.199-3.132.879.843-3.073-.21-.33A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+          </div>
+          <div class="c-info">
+            <strong>WhatsApp</strong>
+            <span><a href="https://wa.me/966538662736" target="_blank" style="color:inherit;direction:ltr;display:inline-block;unicode-bidi:isolate">+966 538 662 736</a></span>
+          </div>
+        </div>
+        <div class="c-item">
+          <div class="c-ico">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <div class="c-info">
+            <strong>Instagram</strong>
+            <span><a href="https://www.instagram.com/ashjan_photography" target="_blank" style="color:inherit">@ashjan_photography</a></span>
+          </div>
+        </div>
+        <div class="c-item">
+          <div class="c-ico" style="font-size:14px">⌖</div>
+          <div class="c-info">
+            <strong><span class="en">Location</span><span class="ar">الموقع</span></strong>
+            <span><span class="en">Riyadh, Saudi Arabia</span><span class="ar">الرياض، المملكة العربية السعودية</span></span>
+          </div>
+        </div>
+        <div class="c-item">
+          <div class="c-ico" style="font-size:14px">◷</div>
+          <div class="c-info">
+            <strong><span class="en">Available</span><span class="ar">أوقات العمل</span></strong>
+            <span><span class="en">Sat – Thu · By appointment</span><span class="ar">السبت – الخميس · بموعد مسبق</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-left">
+        <div class="footer-tagline">
+          <span class="en">Riyadh · Saudi Arabia<br>Certified Freelance Photographer</span>
+          <span class="ar" style="font-family:var(--ar);direction:rtl">الرياض · المملكة العربية السعودية<br>مصورة فريلانسر معتمدة</span>
+        </div>
+      </div>
+      <div class="footer-center">
+        <svg width="56" height="56" viewBox="0 0 46 46" fill="none">
+          <circle cx="23" cy="23" r="21.5" stroke="#C8A84B" stroke-width="1"/>
+          <text x="9" y="30" font-family="Georgia,serif" font-size="20" font-weight="700" fill="#EDE5D8" letter-spacing="-1">A</text>
+          <text x="23" y="30" font-family="Georgia,serif" font-size="21" font-weight="400" fill="#C8A84B" font-style="italic">R</text>
+        </svg>
+        <div class="footer-mark">Ashjan</div>
+      </div>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/ashjan_photography" target="_blank" class="soc">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://wa.me/966538662736" target="_blank" class="soc">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.018 22l4.979-1.398A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.658 0-3.197-.5-4.478-1.355l-.322-.199-3.132.879.843-3.073-.21-.33A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-copy">
+      © 2025 Ashjan Photography · All rights reserved
+      <br><span>جميع الحقوق محفوظة · أشجان للتصوير</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ TWEAKS ═══ -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <label>Gold Accent
+    <select onchange="setToken('--gold',this.value)">
+      <option value="#C8A84B">Warm Gold</option>
+      <option value="#E2CB7A">Pale Gold</option>
+      <option value="#B8956A">Antique Bronze</option>
+      <option value="#D4AF6A">Champagne</option>
+    </select>
+  </label>
+  <label>Dark Base
+    <select onchange="setToken('--ink',this.value)">
+      <option value="#0C0B09">Warm Black</option>
+      <option value="#080808">Pure Black</option>
+      <option value="#0E1010">Cool Dark</option>
+    </select>
+  </label>
+  <label>Hero Overlay Darkness
+    <input type="range" min="0" max="1" step="0.05" value="0.65"
+      oninput="
+        const v=parseFloat(this.value);
+        document.documentElement.style.setProperty('--hero-overlay-top', Math.min(v+0.1,1));
+        document.documentElement.style.setProperty('--hero-overlay-mid', Math.max(v-0.15,0));
+        document.documentElement.style.setProperty('--hero-overlay-bot', Math.min(v+0.2,1));
+        document.getElementById('tweak-overlay-val').textContent=Math.round(v*100)+'%';
+        window.parent.postMessage({type:'__edit_mode_set_keys',edits:{heroOverlay:v}},'*');
+      ">
+    <span id="tweak-overlay-val" style="font-size:10px;color:#888;display:block;margin-top:2px;">65%</span>
+  </label>
+  </label>
+  <label>Card Surface
+    <select onchange="setToken('--card',this.value)">
+      <option value="#161410">Very Dark</option>
+      <option value="#1E1B16">Medium Dark</option>
+      <option value="#252118">Lighter Dark</option>
+    </select>
+  </label>
+</div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#C8A84B",
+  "dark": "#0C0B09",
+  "radius": "32px",
+  "card": "#161410",
+  "heroOverlay": 0.75
+}/*EDITMODE-END*/;
+
+function setToken(prop,val){
+  document.documentElement.style.setProperty(prop,val);
+}
+// apply saved
+setToken('--gold', TWEAK_DEFAULTS.accent);
+setToken('--ink',  TWEAK_DEFAULTS.dark);
+setToken('--card', TWEAK_DEFAULTS.card);
+const r = parseInt(TWEAK_DEFAULTS.radius)||32;
+setToken('--r-lg', r+'px');
+setToken('--r-xl', (r+16)+'px');
+
+// tweaks toggle
+window.addEventListener('message', e => {
+  if(e.data?.type==='__activate_edit_mode')   document.getElementById('tweaks-panel').style.display='block';
+  if(e.data?.type==='__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display='none';
+});
+window.parent.postMessage({type:'__edit_mode_available'},'*');
+
+// language
+let isAR=false;
+function toggleLang(){
+  isAR=!isAR;
+  document.documentElement.setAttribute('lang',isAR?'ar':'en');
+  document.documentElement.setAttribute('dir',isAR?'rtl':'ltr');
+  document.getElementById('lang-btn').textContent=isAR?'English':'عربي';
+}
+
+// light / dark mode
+let isLight=false;
+function toggleMode(){
+  isLight=!isLight;
+  document.body.classList.toggle('light',isLight);
+  const btn=document.getElementById('mode-btn');
+  btn.textContent=isLight?'🌙':'☀';
+  btn.title=isLight?'Switch to Dark':'Switch to Light';
+}
+
+// hamburger
+function toggleMenu(){
+  document.getElementById('mob-menu').classList.toggle('open');
+}
+
+// nav scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40);
+},{passive:true});
+
+// scroll fade-in
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.opacity='1';
+      e.target.style.transform='translateY(0)';
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.svc-card,.g-item,.stat,.c-item,.cert-pill').forEach(el=>{
+  el.style.opacity='0';
+  el.style.transform='translateY(18px)';
+  el.style.transition='opacity 0.6s ease, transform 0.6s ease';
+  io.observe(el);
+});
+</script>
+</body>
+</html>
